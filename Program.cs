@@ -1,10 +1,19 @@
 using Journals_System.Models.Database;
+using Journals_System.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IResearchersServices, ResearchersServices>();
+//Session Services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddDbContext<dbContext>(options =>
 {
@@ -13,6 +22,7 @@ builder.Services.AddDbContext<dbContext>(options =>
 
 var app = builder.Build();
 
+app.UseSession();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
