@@ -3,19 +3,6 @@
 }
 
 <div>
-    @if(journals.Count == 0)
-    {
-        <h1>Currently you have no uploaded journals</h1>
-    }
-    else
-    {
-        foreach(var journal in journals)
-        {
-            <div>
-                This is a Journal
-            </div>
-        }
-    }
     <div class="input-group mb-3">
         <form method="post" action="/Journals/UploadJournal" enctype="multipart/form-data" class="mb-3">
             <div class="mb-3">
@@ -29,4 +16,28 @@
             <button type="submit" class="btn btn-secondary">Upload File</button>
         </form>
     </div>
+    <hr />
+    @if(journals.Count == 0)
+    {
+        <h1>Currently you have no uploaded journals</h1>
+    }
+    else
+    {
+        foreach(var journal in journals)
+        {
+            <div>
+                <h2>@journal.Title</h2>
+                <button class="btn btn-primary" onclick="showJournal(this)">Show Journal</button>
+                <button class="btn btn-primary" onclick="hideJournal(this)" hidden>Hide</button>
+                <iframe src="@Url.Action("GetPDF", "Journals", new { fileName = journal.FileName })" width="100%" height="600px" hidden>
+                    Your browser does not support iframes.
+                </iframe>
+            </div>
+            <hr />
+        }
+    }
 </div>
+
+    @section Scripts{
+        <script src="~/Scripts/Journals.js"></script>
+    }

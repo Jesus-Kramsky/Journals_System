@@ -28,5 +28,25 @@ namespace Journals_System.Controllers
             await _journalsServices.UploadJournal(NewJournal, Title, (int)HttpContext.Session.GetInt32("researcherId"));
             return RedirectToAction("MyJournals", "Home");
         }
+
+        //<Summary>
+        //Gets PDF to read only
+        //<Summary>
+        public IActionResult GetPDF(string fileName)
+        {
+            // Ruta completa al archivo dentro de wwwroot
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JournalsFiles", fileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                // Devolver el archivo como un PDF
+                return PhysicalFile(filePath, "application/pdf");
+            }
+            else
+            {
+                // Si el archivo no existe, devolver un error 404
+                return NotFound();
+            }
+        }
     }
 }

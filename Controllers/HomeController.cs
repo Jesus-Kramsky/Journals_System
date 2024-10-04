@@ -42,8 +42,21 @@ namespace Journals_System.Controllers
         //<Summary>
         public async Task<IActionResult> Researchers()
         {
+            int IdInSession = (int)HttpContext.Session.GetInt32("researcherId");
             ViewData["researcherName"] = HttpContext.Session.GetString("researcherName");
-            List<Researchers> researchers = await _dbContext.Researchers.ToListAsync();
+            ViewData["researchers"] = await _dbContext.Researchers.Where(r => !_dbContext.Subscriptions.Any(s => s.SubscriberId == IdInSession && s.FollowedId == r.IdResearcher) && r.IdResearcher != IdInSession).ToListAsync();
+            return View();
+        }
+        //<Summary>
+        //Method to get followed researchers from database
+        //<Summary>
+        public async Task<IActionResult> MySubscriptions()
+        {
+            ViewData["researcherName"] = HttpContext.Session.GetString("researcherName");
+            int IdInSession = (int)HttpContext.Session.GetInt32("researcherId");
+            List<int> subscriptions = await _dbContext.Subscriptions.Where(x => x.SubscriberId == IdInSession).Select(x => x.FollowedId).ToListAsync();
+            List<Researchers> researchers = await _dbContext.Researchers.Where(x => subscriptions.Contains(x.IdResearcher)).ToListAsync();
+            ViewData["followedResearchers"] = researchers;
             return View();
         }
 
@@ -64,7 +77,7 @@ namespace Journals_System.Controllers
                 return View("Index");
             Researchers researcher = await _researchersServices.LoginProcess(emailLog, passwordLog);
 
-            if(researcher == null)
+            if (researcher == null)
                 return View("Index");
 
             SetSessionVariables(researcher);

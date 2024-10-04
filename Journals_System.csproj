@@ -20,4 +20,8 @@
     <Folder Include="wwwroot\JournalsFiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Scripts\Journals.js" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,14 @@
 ﻿@{
+    var researchers = ViewData["researchers"] as List<Journals_System.Models.Database.Researchers>; 
 }
 
 <div>
-    this is researchers view
+    @foreach(var researcher in researchers)
+    {
+        <div>
+            <strong>@researcher.FullName</strong>
+            <button class="btn btn-primary" >Subscribe</button>
+        </div>
+        <hr />
+    }
 </div>

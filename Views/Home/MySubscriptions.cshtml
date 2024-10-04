@@ -1,0 +1,20 @@
+﻿@{
+    var followedResearchers = ViewData["followedResearchers"] as List<Journals_System.Models.Database.Researchers>;
+}
+
+<div>
+    @if (followedResearchers.Count == 0)
+    {
+        <h1>Currently you don't follow any researcher</h1>
+    }
+    else
+    {
+        foreach (var researcher in followedResearchers)
+        {
+            <div>
+                <strong>@researcher.FullName</strong>
+                <a class="btn btn-primary" asp-area="" asp-controller="Researchers" asp-action="Journals" asp-route-idResearcher="@researcher.IdResearcher">See researcher journals</a>
+            </div>
+        }
+    }
+</div>

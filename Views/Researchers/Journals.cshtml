@@ -1,0 +1,31 @@
+﻿@{
+    var journals = ViewData["researcherJournals"] as List<Journals_System.Models.Database.JournalsFiles>;
+    var researcherName = ViewData["researcherName"] as string;
+}
+
+<div>
+    <h1>@researcherName</h1>
+    @if (journals.Count == 0)
+    {
+        <h2>Currently this researcher has no uploaded journals</h2>
+    }
+    else
+    {
+        foreach (var journal in journals)
+        {
+            <div>
+                <h2>@journal.Title</h2>
+                <button class="btn btn-primary" onclick="showJournal(this)">Show Journal</button>
+                <button class="btn btn-primary" onclick="hideJournal(this)" hidden>Hide</button>
+                <iframe src="@Url.Action("GetPDF", "Journals", new { fileName = journal.FileName })" width="100%" height="600px" hidden>
+                    Your browser does not support iframes.
+                </iframe>
+            </div>
+            <hr />
+        }
+    }
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Journals.js"></script>
+}
