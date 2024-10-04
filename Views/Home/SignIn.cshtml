@@ -1,6 +1,19 @@
-﻿@{
-}
+﻿<h1 class="text-center">Sign-in</h1>
+
 
 <div>
-    Sign in View
+    <form method="post" action="/Home/SignInProcess">
+        <div class="mb-3">
+            <label for="EmailLogin" class="form-label">Email</label>
+            <input type="text" id="EmailLogin" class="form-control" name="emailLog" />
+        </div>
+        <div class="mb-3">
+            <label for="PasswordLogin" class="form-label">Password</label>
+            <input type="password" id="PasswordLogin" class="form-control" name="passwordLog" />
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Create account</button>
+            <a class="btn btn-primary" href="/Home/Index">return</a>
+        </div>
+    </form>
 </div>
