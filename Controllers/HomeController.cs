@@ -30,17 +30,20 @@ namespace Journals_System.Controllers
         //<Summary>
         //Method that obtains researcher in session journals
         //<Summary>
-        public IActionResult MyJournals()
+        public async Task<IActionResult> MyJournals()
         {
             ViewData["researcherName"] = HttpContext.Session.GetString("researcherName");
+            ViewData["MyJournals"] = await _dbContext.JournalsFiles.Where(x => x.IdResearcher == (int)HttpContext.Session.GetInt32("researcherId")).ToListAsync();
             return View();
         }
         //<Summary>
         //Method to get researchers from database
         //to visualize it in view
         //<Summary>
-        public IActionResult Researchers()
+        public async Task<IActionResult> Researchers()
         {
+            ViewData["researcherName"] = HttpContext.Session.GetString("researcherName");
+            List<Researchers> researchers = await _dbContext.Researchers.ToListAsync();
             return View();
         }
 

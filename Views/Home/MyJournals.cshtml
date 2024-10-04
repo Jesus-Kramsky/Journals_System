@@ -1,6 +1,32 @@
 ﻿@{
+    var journals = ViewData["MyJournals"] as List<Journals_System.Models.Database.JournalsFiles>;
 }
 
 <div>
-    <h1>This is the main menu</h1>
+    @if(journals.Count == 0)
+    {
+        <h1>Currently you have no uploaded journals</h1>
+    }
+    else
+    {
+        foreach(var journal in journals)
+        {
+            <div>
+                This is a Journal
+            </div>
+        }
+    }
+    <div class="input-group mb-3">
+        <form method="post" action="/Journals/UploadJournal" enctype="multipart/form-data" class="mb-3">
+            <div class="mb-3">
+                <label for="JournalTitle" class="form-label">Enter the Journal Title</label>
+                <input type="text" id="JournalTitle" name="Title" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="InputFile" class="form-label">Upload a new Journal</label>
+                <input type="file" id="InputFile" name="NewJournal" accept="application/pdf" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-secondary">Upload File</button>
+        </form>
+    </div>
 </div>
