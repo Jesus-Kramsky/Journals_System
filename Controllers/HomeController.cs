@@ -32,7 +32,7 @@ namespace Journals_System.Controllers
         //<Summary>
         public IActionResult MyJournals()
         {
-
+            ViewData["researcherName"] = HttpContext.Session.GetString("researcherName");
             return View();
         }
         //<Summary>
@@ -64,6 +64,8 @@ namespace Journals_System.Controllers
             if(researcher == null)
                 return View("Index");
 
+            SetSessionVariables(researcher);
+
             return RedirectToAction("MyJournals");
         }
 
@@ -84,6 +86,8 @@ namespace Journals_System.Controllers
 
             Researchers newResearcher = await _researchersServices.SigninProcess(FullNameSignIn, emailLog, passwordLog);
 
+            SetSessionVariables(newResearcher);
+
             return RedirectToAction("MyJournals");
         }
 
@@ -101,6 +105,24 @@ namespace Journals_System.Controllers
             }
 
             return false;
+        }
+
+        //<Summary>
+        //Sets the session variables
+        //<Summary>
+        public void SetSessionVariables(Researchers researcher)
+        {
+            HttpContext.Session.SetInt32("researcherId", researcher.IdResearcher);
+            HttpContext.Session.SetString("researcherName", researcher.FullName);
+        }
+
+        //<Summary>
+        //Clears the session variables and logout
+        //<Summary>
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

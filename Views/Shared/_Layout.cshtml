@@ -1,5 +1,5 @@
 ﻿@{
-    var researcherData = ViewData["Researcher"] as Journals_System.Models.Database.Researchers;
+    var researcherName = ViewData["researcherName"] as string;
 }
 
 <!DOCTYPE html>
@@ -22,14 +22,17 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @if(researcherData != null){
+                @if(researcherName != null){
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="My journals">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Researchers">Researchers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LogOut">Logout</a>
                         </li>
                     </ul>
                 </div>
