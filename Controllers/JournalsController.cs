@@ -35,7 +35,7 @@ namespace Journals_System.Controllers
         public IActionResult GetPDF(string fileName)
         {
             // Ruta completa al archivo dentro de wwwroot
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JournalsFiles", fileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "JournalsFiles", fileName);
 
             if (System.IO.File.Exists(filePath))
             {

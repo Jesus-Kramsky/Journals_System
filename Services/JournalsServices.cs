@@ -35,7 +35,7 @@ namespace Journals_System.Services
             JournalsFiles NewJournals = new JournalsFiles();
             // Get file name and content
             var fileName = Path.GetFileName(NewJournal.FileName);
-            var filePath = Path.Combine(_env.WebRootPath, "JournalsFiles", fileName);
+            var filePath = Path.Combine(_env.ContentRootPath, "JournalsFiles", fileName);
 
             NewJournals.FileName = fileName;
             // Save File in server
