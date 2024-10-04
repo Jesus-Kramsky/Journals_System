@@ -1,8 +1,15 @@
-﻿<h1 class="text-center">Sign-in</h1>
+﻿@{
+    var message = ViewData["Message"] as string;
+}
 
+<h1 class="text-center">Sign-in</h1>
 
 <div>
-    <form method="post" action="/Home/SignInProcess">
+    <form method="post" action="/Home/SignInProcess" class="mb-3">
+        <div class="mb-3">
+            <label for="FullName" class="form-label">Enter your fullname</label>
+            <input type="text" id="FullName" class="form-control" name="FullNameSignIn" />
+        </div>
         <div class="mb-3">
             <label for="EmailLogin" class="form-label">Email</label>
             <input type="text" id="EmailLogin" class="form-control" name="emailLog" />
@@ -16,4 +23,6 @@
             <a class="btn btn-primary" href="/Home/Index">return</a>
         </div>
     </form>
+
+    <h3 class="text-center">@message</h3>
 </div>

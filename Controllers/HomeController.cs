@@ -13,7 +13,7 @@ namespace Journals_System.Controllers
         private readonly dbContext _dbContext;
         private readonly IResearchersServices _researchersServices;
 
-        public HomeController(dbContext dbContext,IResearchersServices researchersServices)
+        public HomeController(dbContext dbContext, IResearchersServices researchersServices)
         {
             _dbContext = dbContext;
             _researchersServices = researchersServices;
@@ -24,14 +24,13 @@ namespace Journals_System.Controllers
         //<Summary>
         public IActionResult Index()
         {
-            ViewData["Login"] = true;
             return View();
         }
 
         //<Summary>
         //Method that obtains researcher in session journals
         //<Summary>
-        public IActionResult MyJournals(string? emailLog, string? passwordLog)
+        public IActionResult MyJournals()
         {
 
             return View();
@@ -58,17 +57,32 @@ namespace Journals_System.Controllers
         //<Summary>
         public async Task<IActionResult> Login(string? emailLog, string? passwordLog)
         {
-            if (await EmailUsed(emailLog) || emailLog.IsNullOrEmpty())
-                return RedirectToAction("Index");
-            await _researchersServices.LoginProcess(emailLog, passwordLog);
+            if (emailLog.IsNullOrEmpty() || passwordLog.IsNullOrEmpty())
+                return View("Index");
+            Researchers researcher = await _researchersServices.LoginProcess(emailLog, passwordLog);
+
+            if(researcher == null)
+                return View("Index");
 
             return RedirectToAction("MyJournals");
         }
 
-        public async Task<IActionResult> SignInProcess(string? emailLog, string? passwordLog)
+        //<Summary>
+        //endpoint to call signin process
+        //<Summary>
+        public async Task<IActionResult> SignInProcess(string FullNameSignIn, string? emailLog, string? passwordLog)
         {
-            if (await EmailUsed(emailLog) || emailLog.IsNullOrEmpty())
-                return RedirectToAction("SignIn");
+            if (await EmailUsed(emailLog))
+            {
+                ViewData["Message"] = "The email already exists, use another one";
+                return View("SignIn");
+            }
+
+            if (emailLog.IsNullOrEmpty() || passwordLog.IsNullOrEmpty())
+                return View("SignIn");
+
+
+            Researchers newResearcher = await _researchersServices.SigninProcess(FullNameSignIn, emailLog, passwordLog);
 
             return RedirectToAction("MyJournals");
         }
