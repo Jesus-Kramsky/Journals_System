@@ -23,5 +23,21 @@ namespace Journals_System.Controllers
             ViewData["researcherJournals"] = await _dbContext.JournalsFiles.Where(x => x.IdResearcher == idResearcher).ToListAsync();
             return View();
         }
+
+        //<Summary>
+        //Inserts a new subscription
+        //<Summary>
+        public async Task<IActionResult> Subscribe(int idFollowed)
+        {
+            Subscriptions newSub = new Subscriptions()
+            {
+                SubscriberId = (int)HttpContext.Session.GetInt32("researcherId"),
+                FollowedId = idFollowed
+            };
+            await _dbContext.AddAsync(newSub);
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Researchers", "Home");
+        }
     }
 }
